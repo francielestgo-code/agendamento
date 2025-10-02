@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento de Serviços de Beleza</title>
+    <!-- Carregando Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuração do Tema Tailwind para usar a fonte Inter e cores personalizadas -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#8B5CF6', // Um roxo vibrante
+                        'secondary': '#FBBF24', // Um amarelo para destaque
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos customizados para o design */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Alinha no topo para melhor visualização em telas pequenas */
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+        .service-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+        .whatsapp-button {
+            transition: all 0.2s;
+        }
+        .whatsapp-button:hover {
+            background-color: #10B981; /* Verde esmeralda mais escuro */
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3), 0 4px 6px -4px rgba(16, 185, 129, 0.1);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-lg bg-white p-6 md:p-8 rounded-xl shadow-2xl border border-gray-100">
+        <!-- LOGO INSERIDA AQUI -->
+        <div class="mb-6">
+            <img src="WhatsApp Image 2025-08-25 at 08.19.15.jpeg" alt="Logo Fran BeautyCare" class="w-48 h-auto mx-auto rounded-lg shadow-md object-cover">
+        </div>
+        
+        <h1 class="text-3xl font-extrabold text-primary mb-2 text-center">Agendamento de Serviços</h1>
+        <p class="text-gray-500 mb-6 text-center">Selecione os serviços desejados e preencha seu nome para agendar via WhatsApp.</p>
+
+        <!-- Formulário de Agendamento -->
+        <div id="scheduling-form">
+
+            <!-- Campo Nome -->
+            <div class="mb-6">
+                <label for="clientName" class="block text-sm font-medium text-gray-700 mb-2">Seu Nome:</label>
+                <input type="text" id="clientName" placeholder="Ex: Maria da Silva" 
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150"
+                       required>
+            </div>
+
+            <!-- Lista de Serviços -->
+            <h2 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">Serviços Disponíveis</h2>
+
+            <div class="space-y-4 mb-6">
+                <!-- Serviço 1: Design Simples -->
+                <label class="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer service-item transition duration-200">
+                    <div class="flex items-center">
+                        <input type="checkbox" name="service" value="Design de Sobrancelha (Simples)" data-price="20.00" onchange="calculateTotal()" class="h-5 w-5 text-primary border-gray-300 rounded focus:ring-primary">
+                        <span class="ml-3 text-base font-medium text-gray-800">Design de Sobrancelha (Simples)</span>
+                    </div>
+                    <span class="text-lg font-bold text-gray-600">R$ 20,00</span>
+                </label>
+
+                <!-- Serviço 2: Design com Henna -->
+                <label class="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer service-item transition duration-200">
+                    <div class="flex items-center">
+                        <input type="checkbox" name="service" value="Design de Sobrancelha com Henna" data-price="30.00" onchange="calculateTotal()" class="h-5 w-5 text-primary border-gray-300 rounded focus:ring-primary">
+                        <span class="ml-3 text-base font-medium text-gray-800">Design de Sobrancelha com Henna</span>
+                    </div>
+                    <span class="text-lg font-bold text-gray-600">R$ 30,00</span>
+                </label>
+
+                <!-- Serviço 3: Maquiagem -->
+                <label class="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer service-item transition duration-200">
+                    <div class="flex items-center">
+                        <input type="checkbox" name="service" value="Maquiagem" data-price="45.00" onchange="calculateTotal()" class="h-5 w-5 text-primary border-gray-300 rounded focus:ring-primary">
+                        <span class="ml-3 text-base font-medium text-gray-800">Maquiagem</span>
+                    </div>
+                    <span class="text-lg font-bold text-gray-600">R$ 45,00</span>
+                </label>
+
+                <!-- Serviço 4: Alisamentos -->
+                <label class="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer service-item transition duration-200">
+                    <div class="flex items-center">
+                        <input type="checkbox" name="service" value="Alisamentos" data-price="60.00" onchange="calculateTotal()" class="h-5 w-5 text-primary border-gray-300 rounded focus:ring-primary">
+                        <span class="ml-3 text-base font-medium text-gray-800">Alisamentos</span>
+                    </div>
+                    <span class="text-lg font-bold text-gray-600">R$ 60,00</span>
+                </label>
+            </div>
+
+            <!-- Total e Botão -->
+            <div class="flex flex-col gap-4">
+                <div class="p-4 bg-primary text-white rounded-lg flex justify-between items-center shadow-md">
+                    <span class="text-lg font-semibold">Total dos Serviços:</span>
+                    <span id="totalPrice" class="text-2xl font-extrabold">R$ 0,00</span>
+                </div>
+
+                <button onclick="generateWhatsAppLink()" 
+                        class="whatsapp-button w-full flex items-center justify-center bg-emerald-500 text-white font-bold py-3 rounded-xl shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-emerald-300 disabled:opacity-50"
+                        id="scheduleButton" disabled>
+                    <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 3.189 1.488 6.059 3.82 7.925l-1.04 3.033 3.111-.837C9.375 21.758 10.65 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zM12 20.375c-1.22 0-2.4-.288-3.456-.838l-.248-.125-2.583.694.708-2.617-.138-.236c-1.353-2.316-1.99-4.89-1.99-7.533C4.375 7.427 7.79 4.375 12 4.375s7.625 3.052 7.625 6.792c0 3.739-3.415 6.792-7.625 6.792zM15.42 14.776c-.08-.13-.275-.208-.578-.354-.303-.146-1.792-.878-2.073-.974-.28-.096-.487-.144-.693.146-.206.29-.8.974-.984 1.178-.184.204-.368.228-.68.082-.312-.146-1.309-.481-2.493-1.533-.923-.84-1.543-1.879-1.727-2.183-.184-.303-.019-.47.127-.616.12-.12.27-.319.405-.478.136-.159.181-.275.257-.46.076-.184.038-.347-.019-.481-.057-.134-.514-1.235-.705-1.693-.183-.448-.368-.387-.514-.394-.146-.007-.312-.007-.48-.007-.168 0-.44.053-.674.32-.234.267-.894.873-.894 2.133 0 1.26.914 2.478 1.049 2.646.136.168 1.792 2.735 4.346 3.824 2.553 1.09 2.553.754 3.018.707.464-.047 1.408-.573 1.603-.668.195-.095.337-.146.385-.223.048-.077.048-.423-.095-.788z"/>
+                    </svg>
+                    Agendar Horário via WhatsApp
+                </button>
+                <!-- Mensagem de erro/sucesso -->
+                <div id="messageBox" class="text-sm p-3 rounded-lg hidden"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Número de telefone para o WhatsApp (55 55 999158167)
+        const WHATSAPP_NUMBER = "5555999158167";
+        // Elementos DOM
+        const totalElement = document.getElementById('totalPrice');
+        const nameInput = document.getElementById('clientName');
+        const scheduleButton = document.getElementById('scheduleButton');
+        const messageBox = document.getElementById('messageBox');
+
+        // Função para formatar o valor como moeda BRL
+        const formatBRL = (value) => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+        /**
+         * Calcula e atualiza o preço total dos serviços selecionados.
+         * Habilita/desabilita o botão de agendamento.
+         */
+        function calculateTotal() {
+            let total = 0;
+            const checkboxes = document.querySelectorAll('input[name="service"]:checked');
+
+            checkboxes.forEach(checkbox => {
+                const price = parseFloat(checkbox.getAttribute('data-price'));
+                if (!isNaN(price)) {
+                    total += price;
+                }
+            });
+
+            totalElement.textContent = formatBRL(total);
+
+            // Habilita o botão apenas se o nome estiver preenchido E pelo menos um serviço estiver selecionado
+            const isNameValid = nameInput.value.trim().length > 0;
+            const hasServices = total > 0;
+            
+            scheduleButton.disabled = !(isNameValid && hasServices);
+        }
+
+        /**
+         * Gera a mensagem formatada e redireciona para o WhatsApp.
+         */
+        function generateWhatsAppLink() {
+            const clientName = nameInput.value.trim();
+            const checkboxes = document.querySelectorAll('input[name="service"]:checked');
+            let total = 0;
+
+            // 1. Validação
+            if (!clientName) {
+                showMessage("Por favor, preencha o seu nome.", 'bg-red-100 text-red-700');
+                return;
+            }
+            if (checkboxes.length === 0) {
+                showMessage("Selecione pelo menos um serviço para agendar.", 'bg-red-100 text-red-700');
+                return;
+            }
+
+            // 2. Montagem da Mensagem
+            let serviceList = "";
+            checkboxes.forEach(checkbox => {
+                const price = parseFloat(checkbox.getAttribute('data-price'));
+                const serviceName = checkbox.value;
+                total += price;
+                serviceList += `- ${serviceName} (${formatBRL(price)})\n`;
+            });
+
+            const totalFormatted = formatBRL(total);
+
+            const message = `Olá! Meu nome é ${clientName}. Gostaria de agendar os seguintes serviços:\n\n${serviceList}\nTotal: ${totalFormatted}\n\nPor favor, confirme a disponibilidade de horário.`;
+            
+            // 3. Redirecionamento (URL Encoding)
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+
+            // 4. Feedback e Ação
+            showMessage("Redirecionando para o WhatsApp...", 'bg-green-100 text-green-700');
+            // Abre o link em uma nova aba para evitar problemas de navegação
+            window.open(whatsappLink, '_blank');
+        }
+
+        /**
+         * Exibe uma mensagem de feedback na tela.
+         */
+        function showMessage(text, classes) {
+            messageBox.textContent = text;
+            messageBox.className = `text-sm p-3 rounded-lg mb-4 ${classes}`;
+            messageBox.style.display = 'block';
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 5000);
+        }
+
+        // Adiciona listener para o input de nome para habilitar/desabilitar o botão
+        nameInput.addEventListener('input', calculateTotal);
+
+        // Inicializa o total ao carregar
+        document.addEventListener('DOMContentLoaded', calculateTotal);
+    </script>
+
+</body>
+</html>
